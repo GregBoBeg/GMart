@@ -1,0 +1,39 @@
+{% extends "gmart_app/base.html" %}
+{% block content %}
+
+<script type="text/javascript" src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1565190285/Scripts/xzoom.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1565190284/Scripts/xzoom.css" media="all" />
+<div class="container d-flex justify-content-center border">
+    <section id="default" class="padding-top0">
+        <div class="row">
+            <div class="large-5 col-md-6">
+                <div class="xzoom-container"> 
+                    <img class="xzoom" width="400px" id="xzoom-default" src="{{ object.Product_Image_Primary.url }}" xoriginal="{{ object.Product_Image_Primary.url }}" />
+                    <div class="xzoom-thumbs"> 
+                        <a href="{{ object.Product_Image_Primary.url }}"><img class="xzoom-gallery" width="80" src="{{ object.Product_Image_Primary.url }}" xpreview="{{ object.Product_Image_Primary.url }}"></a>
+                        <a href="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565190720/gallery/original/02_o_car.jpg"><img class="xzoom-gallery" width="80" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565190720/gallery/preview/02_o_car.jpg"></a> 
+                        <a href="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565190718/gallery/original/03_r_car.jpg"><img class="xzoom-gallery" width="80" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565190715/gallery/preview/03_r_car.jpg"></a> 
+                        <a href="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565190717/gallery/original/04_g_car.jpg"><img class="xzoom-gallery" width="80" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565190714/gallery/preview/04_g_car.jpg"></a> 
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-1 mt-5">
+                    <h5>{{ object.Product_Name }}</h5>
+                    <p>{{ object.Product_Description|linebreaks }}</p>
+                    <p class="font-weight-bold">Product Highlights:</p>
+                    <p>{{ object.Product_Highlights|linebreaks }}</p>
+                    <p class="font-weight-bold">Product Details:</p>
+                    <p>{{ object.Product_Details|linebreaks }}</p>
+                    <div class="mt-auto text-center">
+                        <h6>${{ object.Product_Price }}</h6>
+                        <a class="btn btn-primary" href="{% url 'add-to-cart' object.id %}">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+{% endblock content %}
