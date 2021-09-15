@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
+import requests
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,18 @@ SECRET_KEY = 'xahz!o)=(5z@30*^&(&p%^&gvq0$#7vj_r*mdp_=jl$@&6r4t)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['gmart.us-west-2.elasticbeanstalk.com', 'localhost', '*']
+ALLOWED_HOSTS = ['gmart.us-west-2.elasticbeanstalk.com', 'localhost']
+
+# Grab the AWS Elastic Beanstalk Private IP and dynamically add it to the allowed hosts
+EC2_PRIVATE_IP = None
+try:
+    EC2_PRIVATE_IP = requests.get(
+        'http://169.254.169.254/latest/meta-data/local-ipv4',
+        timeout=0.01).text
+except requests.exceptions.RequestException:
+    pass
+if EC2_PRIVATE_IP:
+    ALLOWED_HOSTS.append(EC2_PRIVATE_IP)
 
 
 # Application definition
