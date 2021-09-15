@@ -25,7 +25,7 @@ SECRET_KEY = 'xahz!o)=(5z@30*^&(&p%^&gvq0$#7vj_r*mdp_=jl$@&6r4t)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['gmart.us-west-2.elasticbeanstalk.com', 'localhost']
+ALLOWED_HOSTS = ['gmart.us-west-2.elasticbeanstalk.com', 'localhost', '*']
 
 
 # Application definition
