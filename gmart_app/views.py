@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .models import Product, OrderItem, Order, Department
 import os, requests, datetime
 
+
 dept_list = Department.objects.all()
 specials_img_path='media/site_header_specials/'  # Path for carousel images
 specials_img_list =os.listdir(specials_img_path)
@@ -74,29 +75,35 @@ def about(request):
     context['img_specials'] = specials_img_list
     return render(request, 'gmart_app/about.html', context)
 
-def add_to_cart(request, pk):
-    # Get the selected product, using the pk passed into the function.
-    selected_product = get_object_or_404(Product, id=pk)
-    # Determine whether the cart already has an open order.
-    if Order.objects.filter(Order_User=request.user, Order_Ordered=False).exists():
-        cart_order = Order.objects.filter(Order_User=request.user, Order_Ordered=False)[0]
-        # Determine whether the product is already in the cart.
-        if OrderItem.objects.filter(OrderItem_Product=selected_product, OrderItem_Order=cart_order).exists():
-            # Item alread in cart, add another by incrementing the quantity.
-            cart_order_item = OrderItem.objects.get(OrderItem_Product=selected_product, OrderItem_Order=cart_order)
-            cart_order_item.OrderItem_Quantity += 1
-            cart_order_item.save()
-            messages.info(request, 'Another "%s" has been added to your cart.' % selected_product.Product_Name)
+def add_to_cart(request, pk, addQty):
+    print(f'this is how many we want to add... ${addQty}')
+    if request.user.is_authenticated:
+        # Get the selected product, using the pk passed into the function.
+        selected_product = get_object_or_404(Product, id=pk)
+        # Determine whether the cart already has an open order.
+        if Order.objects.filter(Order_User=request.user, Order_Ordered=False).exists():
+            cart_order = Order.objects.filter(Order_User=request.user, Order_Ordered=False)[0]
+            # Determine whether the product is already in the cart.
+            if OrderItem.objects.filter(OrderItem_Product=selected_product, OrderItem_Order=cart_order).exists():
+                # Item alread in cart, add another by incrementing the quantity.
+                cart_order_item = OrderItem.objects.get(OrderItem_Product=selected_product, OrderItem_Order=cart_order)
+                cart_order_item.OrderItem_Quantity += addQty
+                cart_order_item.save()
+                messages.info(request, '%s added to your cart: %s' % (addQty, selected_product.Product_Name))
+            else:
+                # Item not in cart.  Create one.
+                cart_order_item  = OrderItem.objects.create(OrderItem_Product=selected_product, OrderItem_Order=cart_order, OrderItem_Quantity=addQty)
+                messages.info(request, '"%s" has been added to your cart.' % selected_product.Product_Name)
         else:
-            # Item not in cart.  Create one.
-            cart_order_item  = OrderItem.objects.create(OrderItem_Product=selected_product, OrderItem_Order=cart_order)
-            messages.info(request, '"%s" has been added to your cart.' % selected_product.Product_Name)
+            # Create a new order and create a new item in the order
+            new_order = Order.objects.create(Order_User=request.user, Order_Date=datetime.datetime.now())
+            new_order_item = OrderItem.objects.create(OrderItem_Product=selected_product, OrderItem_Order=new_order, OrderItem_Quantity=addQty)
+            messages.info(request, "This item has been added to your cart.")
+        return redirect("gmart-product-detail", pk)
     else:
-        # Create a new order and create a new item in the order
-        new_order = Order.objects.create(Order_User=request.user, Order_Date=datetime.datetime.now())
-        new_order_item = OrderItem.objects.create(OrderItem_Product=selected_product, OrderItem_Order=new_order)
-        messages.info(request, "This item has been added to your cart.")
-    return redirect("gmart-product-detail", pk)
+        messages.info(request, "This site is for members only.  Please login or register a new account.")
+        return redirect("login")
+
 
 def remove_from_cart(request, pk, cart):
     # This function removes a selected item from the cart.

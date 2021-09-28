@@ -27,7 +27,10 @@
                                     
                                 </h5>
                             </div>
-                            <div><a class="btn btn-primary" href="{% url 'remove-from-cart' prod.id prod.OrderItem_Order_id %}">Remove Item </a></div>
+                            <div>
+                                <a class="btn btn-primary" href="{% url 'gmart-product-detail' prod.OrderItem_Product.id %}">Add More</a>
+                                <a class="btn btn-primary" href="{% url 'remove-from-cart' prod.id prod.OrderItem_Order_id %}">Remove All</a>
+                            </div>
                         </td>
                     </tr>
                 {% endfor %}
@@ -89,7 +92,10 @@
         </tr>
         <tr>
             <td>
-                <div><a class="btn btn-primary">Proceed to Checkout</a></div>
+                <div>
+                    <a class="btn btn-primary" href="{% url 'gmart-home' %}">Continue Shopping</a>
+                    <a class="btn btn-primary" onclick="eCommercePlaceholder()">Proceed to Checkout</a>
+                </div>
             </td>
         </tr>
     </table>

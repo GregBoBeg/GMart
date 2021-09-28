@@ -26,8 +26,15 @@
                     <p class="font-weight-bold">Product Details:</p>
                     <p>{{ object.Product_Details|linebreaks }}</p>
                     <div class="mt-auto text-center">
-                        <h6>${{ object.Product_Price }}</h6>
-                        <a class="btn btn-primary" href="{% url 'add-to-cart' object.id %}">Add to Cart</a>
+                        <h6>Price Each:  ${{ object.Product_Price }}</h6>
+
+                        <h6 id="quantity-selector">Quantity:  
+                            <button type="button" class="btn btn-outline-primary btn-tiny" id="quantity-decrease">&#x25Bc;</button>
+                            <span id="item-quantity">1</span> 
+                            <button type="button" class="btn btn-outline-primary btn-tiny" id="quantity-increase">&#x25B2;</button>
+                        </h6>
+                        <a class="btn btn-primary" href="{% url 'gmart-home' %}" width="500px">Cancel</a>
+                        <a class="btn btn-primary" id="add-to-cart" href="{% url 'add-to-cart' object.id 555 %}">Add 1 to Cart</a>
                     </div>
                 </div>
             </div>

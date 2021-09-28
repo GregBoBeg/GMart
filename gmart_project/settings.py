@@ -52,6 +52,8 @@ if EC2_PRIVATE_IP:
 
 INSTALLED_APPS = [
     'gmart_app.apps.GmartAppConfig',
+    'users.apps.UsersConfig',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -146,3 +148,8 @@ STATIC_ROOT = 'static'
 # GR Change the default location of where media & image files are located
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_REDIRECT_URL = 'gmart-home'
+LOGIN_URL = 'login'
