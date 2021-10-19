@@ -5,13 +5,16 @@
 {% if object_list.count > 0 %}
 <div>
     <table>
+        <!-- Items currently in cart -->
         <tr>
             <td>
                 <h4>Items in Cart</h4>
             </td>
-        </tr>        <tr>
+        </tr>
+        <tr>
             <td>
                 <table class="table">
+                <!-- Loop through each item in the cart and display the product image, quantity and details. -->
                 {% for prod in object_list %}
                     <tr>
                         <td height="100">
@@ -21,12 +24,14 @@
                             <div>
                                 <h4>{{ prod.OrderItem_Product.Product_Name }}</h4>
                             </div>
+                            <!-- Display Quantity X Price = Total -->
                             <div>
                                 <h5>{{ prod.OrderItem_Quantity }} @ ${{ prod.OrderItem_Product.Product_Price|intcomma }}ea 
                                     = ${{ prod.OrderItem_Total|intcomma }}
                                     
                                 </h5>
                             </div>
+                            <!-- Provide an option to remove or add items to the cart -->
                             <div>
                                 <a class="btn btn-primary" href="{% url 'gmart-product-detail' prod.OrderItem_Product.id %}">Add More</a>
                                 <a class="btn btn-primary" href="{% url 'remove-from-cart' prod.id prod.OrderItem_Order_id %}">Remove All</a>
@@ -37,6 +42,7 @@
                 </table>
             </td>
         </tr>
+        <!-- Order Summary, including list of products, quantities, prices and totals -->
         <tr>
             <td>
                 <br><br><h4>Order Summary</h4>
@@ -47,7 +53,6 @@
                 <table>
                     <tr>
                         <td>
-                            
                             <tr class="bg-secondary text-white">
                                 <th class="p-1">
                                     Product
@@ -90,6 +95,7 @@
                 </table>
             </td>
         </tr>
+        <!-- Option to checkout or continue shopping -->
         <tr>
             <td>
                 <div>

@@ -1,7 +1,9 @@
 from django import template
 from gmart_app.models import Order
 
-# Got this idea from:  https://youtu.be/ex6YznLrmSQ?t=814
+# This custom template tag allows tracking and display of the cart's item count. 
+# The tag is implemented in the Base.html template.
+    # Got this idea from:  https://youtu.be/ex6YznLrmSQ?t=814
 
 register = template.Library()
 

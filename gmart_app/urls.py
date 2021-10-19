@@ -1,11 +1,10 @@
-""" gmart_app URL Configuration
-
-The urlpatterns list below routes URLs to their corresponding views.
-"""
+# gmart_app URL Configuration
 
 from django.urls import path
 from .views import HomeView, add_to_cart, remove_from_cart
 from . import views
+
+# The urlpatterns list below routes URLs to their corresponding views.
 
 urlpatterns = [
     path('', HomeView.as_view(), name='gmart-home'),

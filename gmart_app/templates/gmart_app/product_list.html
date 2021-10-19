@@ -1,6 +1,9 @@
 
 <!-- GR. Images:  See notes at bottom of page regaring how product images are handled -->
 
+<!-- Loop through each product and present its details in a bootstrap card.  
+    Organize each card in a bootstrap flexbox grid of rows and columns. 
+-->
 <div class="card-group">
     {% for prod in object_list %}
     {% if forloop.counter0|divisibleby:3 %} <div class="row"> {% endif %}

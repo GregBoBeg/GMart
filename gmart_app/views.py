@@ -5,12 +5,12 @@ from django.contrib.auth.models import User
 from .models import Product, OrderItem, Order, Department
 import os, requests, datetime
 
-
+# Initialize variables
 dept_list = Department.objects.all()
 specials_img_path='media/site_header_specials/'  # Path for carousel images
 specials_img_list =os.listdir(specials_img_path)
+cart_quantity = 0
 
-cart_quantity = 6
 
 def index(request):
     if request.user.is_authenticated:
@@ -18,17 +18,24 @@ def index(request):
     else:
         print("Not logged in")
 
+# The HomeView class inherits from the ListView class, allowing products to be displayed in list format, filtered by department.
 class HomeView(ListView):
     model = Product
     template_name = "gmart_app/home.html"
 
+    # Get Products
     def get_queryset(self):
+
+        # Assume no Department was selected and get all Products
         queryset = Product.objects.all()
         dept_id = self.request.GET.get("dept")
+        
+        # Filter Products by Department if a Department was selected
         if dept_id:
             queryset = queryset.filter(Product_Department = dept_id)
         return queryset
 
+    # Pass along each Context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['img_specials'] = specials_img_list
@@ -36,6 +43,7 @@ class HomeView(ListView):
         context['cart_count'] = cart_quantity
         return context
 
+# The OrderItemView inherits from the ListView class, which displays cart contents for the current user
 class OrderItemView(ListView):
 #if user is authenticated, then show their cart contents (get their rescent non-filled order's order_id to filter the order_item queryset)
     def get_queryset(self):
@@ -66,17 +74,23 @@ class OrderItemView(ListView):
         context['cart_total'] = self.cart_total
         return context
 
+
+# The ProductDetailView inherits from DetailView. 
+# It provides product detail for a single product, using the product_detail.html page.
 class ProductDetailView(DetailView):
     model = Product
     template_name = "gmart_app/product_detail.html"
 
+
+# The about function displays the about.html page
 def about(request):
     context = {}
     context['img_specials'] = specials_img_list
     return render(request, 'gmart_app/about.html', context)
 
+
+# This function adds a specified quantity of a signle product to the user's order
 def add_to_cart(request, pk, addQty):
-    print(f'this is how many we want to add... ${addQty}')
     if request.user.is_authenticated:
         # Get the selected product, using the pk passed into the function.
         selected_product = get_object_or_404(Product, id=pk)
@@ -105,8 +119,8 @@ def add_to_cart(request, pk, addQty):
         return redirect("login")
 
 
+# This function removes all quantities of a selected item from the cart.
 def remove_from_cart(request, pk, cart):
-    # This function removes a selected item from the cart.
     # There is no code in this function to maintain the cart's item count.  
         # Instead, there's a custom template tag to display the cart's item count... 
         # see cart_template_tags.py for details
