@@ -1,0 +1,1 @@
+web: gunicorn gmart_project.wsgi

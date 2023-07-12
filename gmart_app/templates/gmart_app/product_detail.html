@@ -1,0 +1,55 @@
+<!-- This page includes Product Detail content and is inserted into the base.html template. -->
+
+{% extends "gmart_app/base.html" %}
+{% block content %}
+
+<script type="text/javascript" src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1565190285/Scripts/xzoom.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1565190284/Scripts/xzoom.css" media="all" />
+<div class="container d-flex justify-content-center border">
+    <section id="default" class="padding-top0">
+        <div class="row">
+            <div class="large-5 col-md-6">
+                <div class="xzoom-container"> 
+                    <!-- Display the selected image in its original size -->
+                    <img class="xzoom" width="400px" id="xzoom-default" src="{{ object.Product_Image_Primary.url }}" xoriginal="{{ object.Product_Image_Primary.url }}" />
+                    <!-- Display the non-selected images as thumbnails for selecting -->
+                    <div class="xzoom-thumbs"> 
+                        <a href="{{ object.Product_Image_Primary.url }}"><img class="xzoom-gallery" width="80" src="{{ object.Product_Image_Primary.url }}" xpreview="{{ object.Product_Image_Primary.url }}"></a>
+                        <a href="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565190720/gallery/original/02_o_car.jpg"><img class="xzoom-gallery" width="80" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565190720/gallery/preview/02_o_car.jpg"></a> 
+                        <a href="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565190718/gallery/original/03_r_car.jpg"><img class="xzoom-gallery" width="80" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565190715/gallery/preview/03_r_car.jpg"></a> 
+                        <a href="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565190717/gallery/original/04_g_car.jpg"><img class="xzoom-gallery" width="80" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1565190714/gallery/preview/04_g_car.jpg"></a> 
+                    </div>
+                </div>
+            </div>
+            <!-- Display product details and Quantity Selectors -->
+            <div class="col-md-6">
+                <div class="p-1 mt-5">
+
+                    <!-- Product Details-->
+                    <h5>{{ object.Product_Name }}</h5>
+                    <p>{{ object.Product_Description|linebreaks }}</p>
+                    <p class="font-weight-bold">Product Highlights:</p>
+                    <p>{{ object.Product_Highlights|linebreaks }}</p>
+                    <p class="font-weight-bold">Product Details:</p>
+                    <p>{{ object.Product_Details|linebreaks }}</p>
+
+                    <div class="mt-auto text-center">
+                        <h6>Price Each:  ${{ object.Product_Price }}</h6>
+                        <!-- Quantity Selector:  buttons to increase and decrease item quantity -->
+                        <h6 id="quantity-selector">Quantity:  
+                            <button type="button" class="btn btn-outline-primary btn-tiny" id="quantity-decrease">&#x25Bc;</button>
+                            <span id="item-quantity">1</span> 
+                            <button type="button" class="btn btn-outline-primary btn-tiny" id="quantity-increase">&#x25B2;</button>
+                        </h6>
+                        <a class="btn btn-primary" href="{% url 'gmart-home' %}" width="500px">Cancel</a>
+                        <!-- Display the "Add To Cart" button, and specify the quantity on the button. -->
+                        <a class="btn btn-primary" id="add-to-cart" href="{% url 'add-to-cart' object.id 555 %}">Add 1 to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+{% endblock content %}

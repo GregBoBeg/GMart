@@ -1,0 +1,109 @@
+<!-- Base Template for providing common layout for every web page -->
+
+{% load static %}  <!-- Load files out of the static folder -->
+{% load cart_template_tags %}  <!-- Custom template tags for tracking things like the number of items in the cart-->
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <!-- link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'gmart_app/main.css' %}">  <!--- Generate an absolute URL to the static folder and pulls in the stylesheet -->
+        <!-- Bootstrap Styling Examples:  https://getbootstrap.com/docs/4.5/examples/ -->
+
+        <!-- Pull in the requred javascript for the "Product Hover Zoom" functionality -->
+        {% include 'gmart_app/product_hover_zoom.html' %}
+
+        <!-- Display the page title, if there is one -->
+        {% if title %}
+            <title>GMart - {{ title }}</title>
+        {% else %}
+            <title>GMart</title>
+        {% endif %}
+    </head>
+    <body oncontextmenu='return false' class='snippet-body'>
+        <header class="site-header">
+            <!-- Horizontal Navigation Bar across the top of the website -->
+            <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-steel">
+                <div class="container">
+                    <a class="navbar-brand mr-4" href="{% url 'gmart-home' %}">GMart</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarToggle">
+                        <!-- Navbar Left Side -->
+                        <div class="navbar-nav mr-auto">
+                            <a class="nav-item nav-link" href="{% url 'gmart-home' %}">Home</a>
+                            <a class="nav-item nav-link" href="{% url 'gmart-about' %}">Behind-The-Scenes Tour</a>
+                        </div>
+                        <!-- Navbar Right Side -->
+                        <div class="navbar-nav">
+                            <!-- Based on authentication, display login/logout and welcome/register -->
+                            {% if user.is_authenticated %}
+                                <!-- The Welcome Username link sends the user to the update profile page -->
+                                <a class="nav-item nav-link" href="{% url 'profile' %}"> Welcome {{ user.username }}</a>
+                                <!-- The Logout link will logout the user -->
+                                <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                            {% else %}
+                                <!-- The Login link sends the user to the Login page -->
+                                <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                                <!-- The Register link sends the user to the registration page to create an account -->
+                                <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                            {% endif %}
+                            <a href="{% url 'gmart-cart' 5 %}">
+                                <img width=30 src="{% static 'gmart_app/shopping-cart-icon.png' %}" alt="View Cart">
+                                <!-- Use a custom template tag to display the cart's item count... see cart_template_tags.py for details -->
+                                <p class="badge badge-pill badge-danger p-1 top-0 start-0">{{ request.user|cart_item_count }}</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main role="main" class="container">
+            <div class="row">
+                <!-- Div container for displaying messages -->
+                <div class="col-md-9">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}"> <!-- Django and Bootstrap messages use same naming convention, so we can use message.tags -->
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <!-- Each content page will be inserted here -->
+                    {% block content %}{% endblock %}
+
+                </div>
+                <!-- List of departments for filtering products by department -->
+                {% if departments %}
+                <div class="col-md-3">
+                    <div class="content-section">
+                    <h4>Departments</h4>
+                        <p class='text-muted'>
+                            {% for dept in departments %}
+                            <a href="/?dept={{ dept.id }}" class="p-1 list-group-item list-group-item-action">{{ dept.Department_Name }}</a>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </main>
+        <!-- Required JavaScript for Bootstrap styling -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+
+        <!-- Load the JavaScript code for this website -->
+        <script src="{% static 'gmart_app/app.js' %}"></script>
+    </body>
+</html>

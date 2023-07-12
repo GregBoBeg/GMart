@@ -1,0 +1,42 @@
+<!-- This page contains the "Behind The Scenes" content. -->
+
+<!-- Insert this content within the base.html template. -->
+{% extends "gmart_app/base.html" %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-auto">
+      <img src="https://gmart-s3bucket.s3.amazonaws.com/design_images/ImgGear.png" width="230">
+    </div>
+    <div class="col-md-auto">
+      <h1>Gmart</h1><h1>Behind the Scenes</h1>
+    </div>
+  </div>
+</div>
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-lg-10 px-0">
+      <div class="container">
+        <h3>The Application</h3>
+        <p>GMart is a storefront application developed in Python, from scratch, using the Django framework. It includes an implementation of the Django admin backend for managing products, categories and users. Additionally, a custom implementation of the authentication framework allows for front-end user account management.</p>
+        <p>The storefront allows members to shop for products, storing selections in their shopping cart.  Members can view the contents of their carts, remove items, adjust quantities, etc.</p>
+        <p>The application uses bootstrap for CSS styling throughout the site, including the carousel and card components for product presentation.</p>
+        <p>And finally, vanilla javascript is used to create dynamic increase/decrease buttons to modify product quantities in the DOM, which are passed back to Django, creating dynamic SPA-type functionality for an improved user experience. </p>
+        <h3>The Deployment</h3>
+        <p>GMart has been deployed to a cloud environment, on the AWS platform.  The project is maintained with version control, using GIT, and pushed to a Github repository.  AWS deployment is configured with a CodePipeline to automatically recognize and deploy changes from the Github repository. </p>
+      </div>
+    </div>
+    <div class="col-lg-2 mt-5">
+      <img src="https://gmart-s3bucket.s3.amazonaws.com/design_images/LogoDjango.png" width="100">
+      <img src="https://gmart-s3bucket.s3.amazonaws.com/design_images/LogoPython.png" width="100">
+      <img src="https://gmart-s3bucket.s3.amazonaws.com/design_images/LogoBootstrap.png" width="100">
+      <img src="https://gmart-s3bucket.s3.amazonaws.com/design_images/Logo-Javascript-HTML-CSS.jpg" width="100">
+      <img src="https://gmart-s3bucket.s3.amazonaws.com/design_images/LogoAWS01.png" width="100">
+      <img src="https://gmart-s3bucket.s3.amazonaws.com/design_images/LogoGit.png" width="100">
+      <img src="https://gmart-s3bucket.s3.amazonaws.com/design_images/LogoGitHub.png" width="100">
+    </div>
+  </div>
+  <a class="btn btn-primary" href="{% url 'gmart-home' %}" width="500px">Return to GMart</a>
+</div>
+
+{% endblock content %}

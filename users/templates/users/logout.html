@@ -1,0 +1,15 @@
+{% extends "gmart_app/base.html" %}
+{% block content %}
+    <h3>You are now logged out of your account.</h3>
+    <div class="border-top pt-3">
+        <h4>What would you like to do?</h4>
+        <small class="text-muted">
+            <a href="{% url 'login' %}">Login Again</a>
+        </small>
+    </div>
+    <div>
+        <small class="text-muted">
+            <a href="{% url 'gmart-home' %}">Browse Products</a>
+        </small>
+    </div>
+{% endblock content %}
